@@ -16,12 +16,11 @@ import com.cyb.utility.PerformAction;
 import com.cyb.utility.WebDriverManager;
 
 public class TestModule {
-	public HomePage HomePage;
-	public WelcomePage WelcomePage;
-	public CheckOutPage CheckOutPage;
-	public TransactionResults TransactionResults;
-	public BillingPage BillingPage;
-	//rrf
+	public HomePage homePage;
+	public WelcomePage welcomePage;
+	public CheckOutPage checkOutPage;
+	public TransactionResults transactionResults;
+	public BillingPage billingPage;
 	private WebDriver driver;
 	//String strUser="demoOrder";
 	//String strPassword ="demoOrder";
@@ -34,39 +33,39 @@ public class TestModule {
 	public void preRequisite(String strBrowser,String strUser,String strPassword)
 	{
 		this.driver=WebDriverManager.getBrowserDriver(strBrowser);
-		PageFactory.initElements(this.driver, HomePage.class);
-		HomePage.navigateToURL(strURL);
-		HomePage.enterUserName(strUser);
-		HomePage.enterPassword(strPassword);
-		WelcomePage = HomePage.submitUserContext();
+		homePage = PageFactory.initElements(this.driver, HomePage.class);
+		homePage.navigateToURL(strURL);
+		homePage.enterUserName(strUser);
+		homePage.enterPassword(strPassword);
+		welcomePage = homePage.submitUserContext();
 	}
 
 	@Test
 	//Submit an order for an Apple iPhone4s 16GB SIM-Free – Black 
 	public void submitAnOrder()
 	{
-		WelcomePage.waitForPageToLoad();
-		WelcomePage.searchForProduct(strProduct);
-		WelcomePage.verifyProductAddedToCart(strProduct);
-		WelcomePage.addToCart();
-		WelcomePage.getProductPrice();
-		WelcomePage.verifyGoToCart();	
-		CheckOutPage.waitForPageToLoad();
-		CheckOutPage.ProceedToCheckout();
-		CheckOutPage.verifyGoToCart();
-		BillingPage.waitForPageToLoad();
-		BillingPage.enterShippingAddressDetails();
-		BillingPage.proceedToPurchase();
-		TransactionResults.waitForPageToLoad();
-		TransactionResults.verifySuccessfulOrderPlacement();
+		welcomePage.waitForPageToLoad();
+		welcomePage.searchForProduct(strProduct);
+		welcomePage.verifyProductAddedToCart(strProduct);
+		welcomePage.addToCart();
+		welcomePage.getProductPrice();
+		welcomePage.verifyGoToCart();	
+		checkOutPage.waitForPageToLoad();
+		checkOutPage.ProceedToCheckout();
+		checkOutPage.verifyGoToCart();
+		billingPage.waitForPageToLoad();
+		billingPage.enterShippingAddressDetails();
+		billingPage.proceedToPurchase();
+		transactionResults.waitForPageToLoad();
+		transactionResults.verifySuccessfulOrderPlacement();
 	}
 
 	@Test
 	//verify the Total Price
 	public void verifyTotalPrice()
 	{
-		TransactionResults.getFinalProductPrice();
-		TransactionResults.compareProductPrice();
+		transactionResults.getFinalProductPrice();
+		transactionResults.compareProductPrice();
 	}
 
 	@Parameters({"strBrowser","strUser","strPassword"})
@@ -75,21 +74,21 @@ public class TestModule {
 	logging out and back in using the My Account link.*/
 	public void verifyAccountDetails(String strBrowser,String strUser,String strPassword)
 	{
-		WelcomePage.waitForPageToLoad();
-		WelcomePage.goToMyAcountDetails();
-		WelcomePage.myAccountEdit();
-		TransactionResults.logOut();
+		welcomePage.waitForPageToLoad();
+		welcomePage.goToMyAcountDetails();
+		welcomePage.myAccountEdit();
+		transactionResults.logOut();
 		preRequisite(strBrowser, strUser, strPassword);
-		WelcomePage.waitForPageToLoad();
-		WelcomePage.goToMyAcountDetails();
-		WelcomePage.verifyAcountUpdate();	
+		welcomePage.waitForPageToLoad();
+		welcomePage.goToMyAcountDetails();
+		welcomePage.verifyAcountUpdate();	
 	}
 
 	@Test
 	/*Verify removing all items from your cart produces an empty cart message.*/
 	public void verifyRemovingItemEmptyCartMessage()
 	{
-		CheckOutPage.RemoveItemFromCart();
+		checkOutPage.RemoveItemFromCart();
 	}
 
 	@AfterTest
