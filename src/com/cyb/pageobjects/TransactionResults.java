@@ -12,7 +12,7 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class TransactionResults {
-	private WebDriver driver;
+	public WebDriver driver;
 	WelcomePage welcomePage;
 	String StrFinalPrice;
 	TransactionResults(WebDriver driver)

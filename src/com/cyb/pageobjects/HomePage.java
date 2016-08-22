@@ -13,8 +13,7 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class HomePage {
-
-	private WebDriver driver;
+	public WebDriver driver;
 	HomePage(WebDriver driver)
 	{
 		this.driver=driver;
@@ -45,15 +44,18 @@ public class HomePage {
 	public void navigateToURL(String strURL)
 	{
 		driver.get(strURL);
+		Reporter.log("Naviagted to URL "+strURL);
 	}
 	public void enterUserName(String txtUserName)
 	{
 		PerformAction.sendTextToUI(txt_UserName, txtUserName);
+		Reporter.log("User Name entered as :"+txtUserName);
 	}
 	
 	public void enterPassword(String txtPassword)
 	{
 		PerformAction.sendTextToUI(txt_Password, txtPassword);
+		Reporter.log("Password entered as : ******** ");
 	}
 
 	public WelcomePage submitUserContext()

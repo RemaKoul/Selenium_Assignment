@@ -13,7 +13,7 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class CheckOutPage {
-	private WebDriver driver;
+	public WebDriver driver;
 	CheckOutPage(WebDriver driver)
 	{
 		this.driver=driver;
@@ -29,7 +29,7 @@ public class CheckOutPage {
 	@FindBy(className="entry-content")
 	WebElement txt_EmptyCartMessage;
 	WebDriverWait wait = new WebDriverWait(driver, 10);
-	//Assuring Page has loased
+	//Assuring Page has loaded
 	public void waitForPageToLoad()
 	{
 		

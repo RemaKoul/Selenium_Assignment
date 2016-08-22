@@ -15,7 +15,7 @@ import com.cyb.utility.PerformAction;
 
 public class WelcomePage {
 	HomePage HomePage;
-	private WebDriver driver;
+	public WebDriver driver;
 	WelcomePage(WebDriver driver)
 	{
 		this.driver=driver;
