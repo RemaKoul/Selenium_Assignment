@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="HomeAway_Regression_Suite" verbose="1">
+	  <test name="Regression Test_FireFox">
+	  <parameter name="strBrowser" value="FF"/> 
+	  <parameter name="strUser" value="demoOrder"/>
+	  <parameter name="strPassword" value="demoOrder"/>
+		    <classes>
+		 		 <class name="com.cyb.test.TestModule" />
+		   </classes>
+	  </test>
+</suite>

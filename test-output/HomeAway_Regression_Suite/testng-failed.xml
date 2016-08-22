@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [HomeAway_Regression_Suite]">
+  <parameter name="strUser" value="demoOrder"/>
+  <parameter name="strBrowser" value="FF"/>
+  <parameter name="strPassword" value="demoOrder"/>
+  <test name="Regression Test_FireFox(failed)">
+    <parameter name="strUser" value="demoOrder"/>
+    <parameter name="strBrowser" value="FF"/>
+    <parameter name="strPassword" value="demoOrder"/>
+    <classes>
+      <class name="com.cyb.test.TestModule">
+        <methods>
+          <include name="verifyTotalPrice"/>
+          <include name="verifyAccountDetails"/>
+          <include name="submitAnOrder"/>
+          <include name="verifyRemovingItemEmptyCartMessage"/>
+          <include name="preRequisite"/>
+        </methods>
+      </class> <!-- com.cyb.test.TestModule -->
+    </classes>
+  </test> <!-- Regression Test_FireFox(failed) -->
+</suite> <!-- Failed suite [HomeAway_Regression_Suite] -->
