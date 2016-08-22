@@ -21,7 +21,7 @@ public class TestModule {
 	public CheckOutPage CheckOutPage;
 	public TransactionResults TransactionResults;
 	public BillingPage BillingPage;
-
+	//rrf
 	private WebDriver driver;
 	//String strUser="demoOrder";
 	//String strPassword ="demoOrder";
