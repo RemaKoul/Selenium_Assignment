@@ -35,7 +35,7 @@ public class PerformAction {
 			Reporter.log("Object   " +element+"   not found");
 			Assert.fail();
 		}
-
+		
 	}
 
 	public static String gerTextFromUIElement(WebElement element)
@@ -55,4 +55,10 @@ public class PerformAction {
 	{
 		element.click();
 	}
+	
+	public static void clearUIElement(WebElement element)
+	{
+		element.clear();
+	}
+	
 }

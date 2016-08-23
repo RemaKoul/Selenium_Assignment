@@ -31,7 +31,7 @@ public class TestModule {
 	public void preRequisite(String strBrowser,String strUser,String strPassword)
 	{
 		driver=WebDriverManager.getBrowserDriver(strBrowser);
-		homePage = PageFactory.initElements(this.driver, HomePage.class);
+		homePage = PageFactory.initElements(driver, HomePage.class);
 		homePage.navigateToURL(strURL);
 		homePage.enterUserName(strUser);
 		homePage.enterPassword(strPassword);
@@ -43,37 +43,39 @@ public class TestModule {
 	public void submitAnOrder()
 	{
 		welcomePage.waitForPageToLoad();
+		
 		welcomePage.searchForProduct(strProduct);
 		welcomePage.verifyProductAddedToCart(strProduct);
-		welcomePage.addToCart();
 		welcomePage.getProductPrice();
-		checkOutPage = welcomePage.verifyGoToCart();	
+		welcomePage.addToCart();
+		checkOutPage = welcomePage.verifyGoToCart();
 		checkOutPage.waitForPageToLoad();
-		checkOutPage.ProceedToCheckout();
-		billingPage = checkOutPage.verifyGoToCart();
+		//checkOutPage.ProceedToCheckout();
+		billingPage = checkOutPage.ProceedToCheckout();
 		billingPage.waitForPageToLoad();
 		billingPage.enterShippingAddressDetails();
 		transactionResults = billingPage.proceedToPurchase();
 		transactionResults.waitForPageToLoad();
 		transactionResults.getFinalProductPrice();
 		transactionResults.verifySuccessfulOrderPlacement();
+		welcomePage = transactionResults.compareProductPrice();
 	}
 
-	@Test(priority=1)
-	//verify the Total Price
+	//@Test(priority=1)
+/*	//verify the Total Price
 	public void verifyTotalPrice()
 	{
 		transactionResults.compareProductPrice();
-	}
+	}*/
 
 	
 	@Parameters({"strBrowser","strUser","strPassword"})
-	@Test(priority=2)
+	@Test(priority=1)
 	/*Verify updating your account details is saved and retrieved after 
 	logging out and back in using the My Account link.*/
 	public void verifyAccountDetails(String strBrowser,String strUser,String strPassword)
 	{
-		welcomePage = transactionResults.compareProductPrice();
+		//welcomePage = transactionResults.compareProductPrice();
 		welcomePage.waitForPageToLoad();
 		welcomePage.goToMyAcountDetails();
 		transactionResults = welcomePage.myAccountEdit();
@@ -84,13 +86,13 @@ public class TestModule {
 		welcomePage.verifyAcountUpdate();	
 	}
 	
-	@Test(priority=3)
+	@Test(priority=2)
 	/*Verify removing all items from your cart produces an empty cart message.*/
 	public void verifyRemovingItemEmptyCartMessage()
 	{
-		welcomePage.searchForProduct(strProduct);
+		/*welcomePage.searchForProduct(strProduct);
 		welcomePage.verifyProductAddedToCart(strProduct);
-		welcomePage.addToCart();
+		welcomePage.addToCart();*/
 		checkOutPage = welcomePage.verifyGoToCart();	
 		checkOutPage.waitForPageToLoad();
 		checkOutPage.RemoveItemFromCart();

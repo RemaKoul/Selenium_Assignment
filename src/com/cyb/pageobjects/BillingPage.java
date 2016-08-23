@@ -54,7 +54,7 @@ public class BillingPage {
 	@FindBy(id="wpsc_checkout_form_18")
 	WebElement txt_PhoneNumber;
 
-	@FindBy(css=".make_purchase wpsc_buy_button")
+	@FindBy(css=".make_purchase.wpsc_buy_button")
 	WebElement btn_Purchase;
 
 	//Assuring Page has loaded
@@ -77,20 +77,30 @@ public class BillingPage {
 		PerformAction.clickOnUIElement(btn_CalculateState);
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("wpsc_checkout_form_9")));
+		PerformAction.clearUIElement(txt_emailAddress);
 		PerformAction.sendTextToUI(txt_emailAddress, "abc@testdomain.com");
+			PerformAction.clearUIElement(txt_FirstName);
 		PerformAction.sendTextToUI(txt_FirstName, "Rema");
+			PerformAction.clearUIElement(txt_LastName);
 		PerformAction.sendTextToUI(txt_LastName, "Koul");
+		PerformAction.clearUIElement(txt_ShipingAddress);
 		PerformAction.sendTextToUI(txt_ShipingAddress, "Pune");
+		PerformAction.clearUIElement(txt_City);
 		PerformAction.sendTextToUI(txt_City, "Pune");
+		PerformAction.clearUIElement(txt_State);
 		PerformAction.sendTextToUI(txt_State, "Mah");
 		PerformAction.selectValueFromDropDown(drp_selectCountryAddress, strCountry);
+		PerformAction.clearUIElement(txt_PhoneNumber);
 		PerformAction.sendTextToUI(txt_PhoneNumber, "9049986606");
+		
 		PerformAction.selectCheckBox(chb_sameAsShipingAddress);
 	}
 
 
 	public TransactionResults proceedToPurchase()
 	{
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(btn_Purchase));
 		PerformAction.clickOnUIElement(btn_Purchase);
 		return PageFactory.initElements(driver, TransactionResults.class);
 	}

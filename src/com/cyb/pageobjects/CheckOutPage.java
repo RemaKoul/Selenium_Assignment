@@ -42,11 +42,11 @@ public class CheckOutPage {
 		}
 	}
 
-	public void ProceedToCheckout()
+	/*public void ProceedToCheckout()
 	{
 		PerformAction.clickOnUIElement(btn_continueCheckOut);
 
-	}
+	}*/
 	public void RemoveItemFromCart()
 	{
 		String strSuccessEmptyCartMsg = "Oops, there is nothing in your cart.";
@@ -61,11 +61,10 @@ public class CheckOutPage {
 			Reporter.log("Cart has not been emptied successfully");
 		}
 	}
-	public BillingPage verifyGoToCart()
+	public BillingPage ProceedToCheckout()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_continueCheckOut));
-
 		PerformAction.clickOnUIElement(btn_continueCheckOut);
 		return PageFactory.initElements(driver, BillingPage.class);
 	}

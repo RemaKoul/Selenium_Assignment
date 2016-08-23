@@ -4,8 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.Reporter;
+
+import com.cyb.pageobjects.HomePage;
+import com.cyb.pageobjects.TransactionResults;
 
 public class WebDriverManager {
 
@@ -31,11 +35,12 @@ public class WebDriverManager {
 				driver=new ChromeDriver();
 				driver.manage().window().maximize();
 			}
+			Thread.sleep(1000);
 			return driver;
+			//return PageFactory.initElements(driver, HomePage.class);
 		} catch (Exception e) {
 			Reporter.log("Driver creation failed");
-			System.out.println("Driver creation failed");
-			Assert.fail();
+						Assert.fail();
 			return null;
 		}
 
