@@ -1,6 +1,5 @@
 package com.cyb.pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,18 +21,19 @@ public class CheckOutPage {
 	// Identifying Elements 
 	@FindBy(name="submit")
 	WebElement btn_Remove;
-	
-	@FindBy(className="step2")
+
+	@FindBy(css=".step2")
 	WebElement btn_continueCheckOut;
-	
-	@FindBy(className="entry-content")
+
+	@FindBy(css=".entry-content")
 	WebElement txt_EmptyCartMessage;
-	WebDriverWait wait = new WebDriverWait(driver, 10);
+
 	//Assuring Page has loaded
 	public void waitForPageToLoad()
 	{
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("submit")));
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(btn_Remove));
+
 		if (btn_Remove.isDisplayed()) {
 			Reporter.log("Welcome to CheckOut Page");
 		} else {
@@ -41,17 +41,20 @@ public class CheckOutPage {
 			Assert.fail();
 		}
 	}
-	
+
 	public void ProceedToCheckout()
 	{
 		PerformAction.clickOnUIElement(btn_continueCheckOut);
-	
+
 	}
 	public void RemoveItemFromCart()
 	{
 		String strSuccessEmptyCartMsg = "Oops, there is nothing in your cart.";
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(btn_Remove));
 		PerformAction.clickOnUIElement(btn_Remove);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("entry-content")));
+
+		wait.until(ExpectedConditions.visibilityOf(txt_EmptyCartMessage));
 		if (PerformAction.gerTextFromUIElement(txt_EmptyCartMessage).contains(strSuccessEmptyCartMsg)) {
 			Reporter.log("Cart has been emptied successfully");
 		} else {
@@ -60,6 +63,9 @@ public class CheckOutPage {
 	}
 	public BillingPage verifyGoToCart()
 	{
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOf(btn_continueCheckOut));
+
 		PerformAction.clickOnUIElement(btn_continueCheckOut);
 		return PageFactory.initElements(driver, BillingPage.class);
 	}

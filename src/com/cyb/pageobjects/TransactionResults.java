@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -32,7 +33,7 @@ public class TransactionResults {
 	public void waitForPageToLoad()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='post-30']/div/div[2]/p[1]")));
+		wait.until(ExpectedConditions.visibilityOf(txt_SuccessMessage));
 		if (txt_SuccessMessage.isDisplayed()) {
 			Reporter.log("You have successfully Placed the Order");
 		} else {
@@ -45,17 +46,19 @@ public class TransactionResults {
 		StrFinalPrice = PerformAction.gerTextFromUIElement(txt_ItemTotal);	
 	}
 	
-	public void compareProductPrice()
+	public WelcomePage compareProductPrice()
 	{
 		if (welcomePage.strActualPrice.equalsIgnoreCase(StrFinalPrice)) {
 			Reporter.log("Total price displayed on transaction Page :"+StrFinalPrice+"  is same as Product Selection Page :"+welcomePage.strActualPrice);
 		} else {
 			Reporter.log("Total price displayed on transaction Page :"+StrFinalPrice+"  is NOT same as Product Selection Page :"+welcomePage.strActualPrice);
 		}
+		return PageFactory.initElements(driver, WelcomePage.class);
 	}
 	public void verifySuccessfulOrderPlacement()
 	{
 		PerformAction.IsElementAvailable(txt_SuccessMessage);
+		
 	}
 	public void logOut()
 	{

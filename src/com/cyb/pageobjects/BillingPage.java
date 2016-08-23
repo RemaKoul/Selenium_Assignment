@@ -20,7 +20,6 @@ public class BillingPage {
 	{
 		this.driver=driver;
 	}
-
 	// Identifying Elements 
 	@FindBy(id="current_country")
 	WebElement drp_CurrentCountry;
@@ -55,7 +54,7 @@ public class BillingPage {
 	@FindBy(id="wpsc_checkout_form_18")
 	WebElement txt_PhoneNumber;
 
-	@FindBy(className="make_purchase wpsc_buy_button")
+	@FindBy(css=".make_purchase wpsc_buy_button")
 	WebElement btn_Purchase;
 
 	//Assuring Page has loaded
@@ -76,10 +75,11 @@ public class BillingPage {
 		String strCountry="India";
 		PerformAction.selectValueFromDropDown(drp_CurrentCountry, strCountry);
 		PerformAction.clickOnUIElement(btn_CalculateState);
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("wpsc_checkout_form_9")));
 		PerformAction.sendTextToUI(txt_emailAddress, "abc@testdomain.com");
 		PerformAction.sendTextToUI(txt_FirstName, "Rema");
-		PerformAction.sendTextToUI(txt_LastName, "rk");
+		PerformAction.sendTextToUI(txt_LastName, "Koul");
 		PerformAction.sendTextToUI(txt_ShipingAddress, "Pune");
 		PerformAction.sendTextToUI(txt_City, "Pune");
 		PerformAction.sendTextToUI(txt_State, "Mah");

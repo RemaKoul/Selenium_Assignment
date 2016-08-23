@@ -14,7 +14,7 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class WelcomePage {
-	HomePage HomePage;
+	HomePage homePage;
 	public WebDriver driver;
 	WelcomePage(WebDriver driver)
 	{
@@ -33,13 +33,13 @@ public class WelcomePage {
 	@FindBy(name="Buy")
 	WebElement btn_AddToCart;
 
-	@FindBy(className="go_to_checkout")	
+	@FindBy(css=".go_to_checkout")	
 	WebElement btn_GoToCheckOut;
 
-	@FindBy(className="currentprice")	
+	@FindBy(css=".currentprice")	
 	WebElement txt_currentPrice;
 
-	@FindBy(className="account_icon")
+	@FindBy(css=".account_icon")
 	WebElement btn_MyAccount;
 	
 	@FindBy(xpath=".//*[@id='post-31']/div/div/div/a[2]")
@@ -93,11 +93,12 @@ public class WelcomePage {
 		PerformAction.clickOnUIElement(btn_MyAccount);
 		PerformAction.clickOnUIElement(lnk_YourDetails);
 	}
-	public void myAccountEdit()
+	public TransactionResults myAccountEdit()
 	{
 		StrInitialAddress = PerformAction.gerTextFromUIElement(txt_Address);
 		PerformAction.sendTextToUI(txt_Address, newAdress);	
 		PerformAction.clickOnUIElement(btn_SubmitEditProfile);
+		return PageFactory.initElements(driver, TransactionResults.class);
 	}
 	
 	public void verifyAcountUpdate()

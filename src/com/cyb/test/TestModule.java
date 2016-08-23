@@ -21,18 +21,16 @@ public class TestModule {
 	public CheckOutPage checkOutPage;
 	public TransactionResults transactionResults;
 	public BillingPage billingPage;
+
 	private WebDriver driver;
-	//String strUser="demoOrder";
-	//String strPassword ="demoOrder";
 	String strURL ="http://store.demoqa.com/products-page/your-account/";
 	String strProduct="Apple iPhone 4S 16GB SIM-Free - Black";
-	//	String strBrowser ="IE";
 
 	@Parameters({"strBrowser","strUser","strPassword"})
 	@BeforeTest
 	public void preRequisite(String strBrowser,String strUser,String strPassword)
 	{
-		this.driver=WebDriverManager.getBrowserDriver(strBrowser);
+		driver=WebDriverManager.getBrowserDriver(strBrowser);
 		homePage = PageFactory.initElements(this.driver, HomePage.class);
 		homePage.navigateToURL(strURL);
 		homePage.enterUserName(strUser);
@@ -40,7 +38,7 @@ public class TestModule {
 		welcomePage = homePage.submitUserContext();
 	}
 
-	@Test
+	@Test(priority=0)
 	//Submit an order for an Apple iPhone4s 16GB SIM-Free – Black 
 	public void submitAnOrder()
 	{
@@ -49,47 +47,55 @@ public class TestModule {
 		welcomePage.verifyProductAddedToCart(strProduct);
 		welcomePage.addToCart();
 		welcomePage.getProductPrice();
-		welcomePage.verifyGoToCart();	
+		checkOutPage = welcomePage.verifyGoToCart();	
 		checkOutPage.waitForPageToLoad();
 		checkOutPage.ProceedToCheckout();
-		checkOutPage.verifyGoToCart();
+		billingPage = checkOutPage.verifyGoToCart();
 		billingPage.waitForPageToLoad();
 		billingPage.enterShippingAddressDetails();
-		billingPage.proceedToPurchase();
+		transactionResults = billingPage.proceedToPurchase();
 		transactionResults.waitForPageToLoad();
+		transactionResults.getFinalProductPrice();
 		transactionResults.verifySuccessfulOrderPlacement();
 	}
 
-	@Test
+	@Test(priority=1)
 	//verify the Total Price
 	public void verifyTotalPrice()
 	{
-		transactionResults.getFinalProductPrice();
 		transactionResults.compareProductPrice();
 	}
 
+	
 	@Parameters({"strBrowser","strUser","strPassword"})
-	@Test
+	@Test(priority=2)
 	/*Verify updating your account details is saved and retrieved after 
 	logging out and back in using the My Account link.*/
 	public void verifyAccountDetails(String strBrowser,String strUser,String strPassword)
 	{
+		welcomePage = transactionResults.compareProductPrice();
 		welcomePage.waitForPageToLoad();
 		welcomePage.goToMyAcountDetails();
-		welcomePage.myAccountEdit();
+		transactionResults = welcomePage.myAccountEdit();
 		transactionResults.logOut();
 		preRequisite(strBrowser, strUser, strPassword);
 		welcomePage.waitForPageToLoad();
 		welcomePage.goToMyAcountDetails();
 		welcomePage.verifyAcountUpdate();	
 	}
-
-	@Test
+	
+	@Test(priority=3)
 	/*Verify removing all items from your cart produces an empty cart message.*/
 	public void verifyRemovingItemEmptyCartMessage()
 	{
+		welcomePage.searchForProduct(strProduct);
+		welcomePage.verifyProductAddedToCart(strProduct);
+		welcomePage.addToCart();
+		checkOutPage = welcomePage.verifyGoToCart();	
+		checkOutPage.waitForPageToLoad();
 		checkOutPage.RemoveItemFromCart();
 	}
+	
 
 	@AfterTest
 	public void tearDown()
