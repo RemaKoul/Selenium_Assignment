@@ -15,8 +15,8 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class BillingPage {
-	public WebDriver driver;
-	BillingPage(WebDriver driver)
+	private WebDriver driver;
+	public BillingPage(WebDriver driver)
 	{
 		this.driver=driver;
 	}

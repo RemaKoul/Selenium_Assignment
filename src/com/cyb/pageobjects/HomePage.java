@@ -13,8 +13,8 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class HomePage {
-	public WebDriver driver;
-	HomePage(WebDriver driver)
+	private WebDriver driver;
+	public HomePage(WebDriver driver)
 	{
 		this.driver=driver;
 	}

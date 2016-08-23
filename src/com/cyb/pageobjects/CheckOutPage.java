@@ -12,8 +12,8 @@ import org.testng.Reporter;
 import com.cyb.utility.PerformAction;
 
 public class CheckOutPage {
-	public WebDriver driver;
-	CheckOutPage(WebDriver driver)
+	private WebDriver driver;
+	public CheckOutPage(WebDriver driver)
 	{
 		this.driver=driver;
 	}
