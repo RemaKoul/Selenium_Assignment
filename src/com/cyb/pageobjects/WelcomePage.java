@@ -21,7 +21,7 @@ public class WelcomePage {
 		this.driver=driver;
 	}
 	//Declaring Global Variable for Price comparison
-	String strActualPrice;
+	static String strActualPrice;
 
 	// Identifying Elements 
 	@FindBy(id="logo")
@@ -41,24 +41,24 @@ public class WelcomePage {
 
 	@FindBy(css=".account_icon")
 	WebElement btn_MyAccount;
-	
+
 	@FindBy(xpath=".//*[@id='post-31']/div/div/div/a[2]")
 	WebElement lnk_YourDetails;
-	
+
 	@FindBy(id="wpsc_checkout_form_4")
 	WebElement txt_Address;
-	
+
 	@FindBy(name="submit")
 	WebElement btn_SubmitEditProfile;
-	
+
 	@FindBy(xpath=".//*[@id='account_logout']/a")
 	WebElement btn_LogOut_WelcomePage;
-	
-	@FindBy(xpath=".//*[@id='header_cart']/a/span[1]")
+
+	@FindBy(xpath=".//*[@id='header_cart']/a")
 	WebElement btn_ItemsInCart;
-	
-	
-	//Assuring Page has loased
+
+
+	//Assuring Page has loaded
 	public void waitForPageToLoad()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -94,23 +94,27 @@ public class WelcomePage {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_AddToCart));
 		PerformAction.clickOnUIElement(btn_AddToCart);
+		Reporter.log("Clicked on Add to Cart button");
 	}
 	public void getProductPrice()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(txt_currentPrice));
 		strActualPrice = PerformAction.gerTextFromUIElement(txt_currentPrice);
+		Reporter.log("Product price displayed is:  "+strActualPrice);
 	}
 	String newAdress = "Bombay";
 	String StrInitialAddress;
-	
+
 	public void goToMyAcountDetails()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_MyAccount));
 		PerformAction.clickOnUIElement(btn_MyAccount);
+		Reporter.log("Clicked on MyAccount ");
 		wait.until(ExpectedConditions.visibilityOf(lnk_YourDetails));
 		PerformAction.clickOnUIElement(lnk_YourDetails);
+		Reporter.log("Clicked on MyAccount-> Your Details  ");
 	}
 	public TransactionResults myAccountEdit()
 	{
@@ -119,10 +123,13 @@ public class WelcomePage {
 		StrInitialAddress = PerformAction.gerTextFromUIElement(txt_Address);
 		PerformAction.clearUIElement(txt_Address);
 		PerformAction.sendTextToUI(txt_Address, newAdress);	
+		Reporter.log("Existing Updated Address was: "+StrInitialAddress);
+		Reporter.log("New Address updated as: "+newAdress);
 		PerformAction.clickOnUIElement(btn_SubmitEditProfile);
+		Reporter.log("Clicked on Save Profile");
 		return PageFactory.initElements(driver, TransactionResults.class);
 	}
-	
+
 	public void verifyAcountUpdate()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -134,25 +141,28 @@ public class WelcomePage {
 			Assert.fail();
 		} else if(CurrentAddress.equalsIgnoreCase(newAdress)){
 			Reporter.log("Account details have been updated successfully");
-			System.out.println("Account details have been updated successfully");
 		}
 	}
-	
-	
+
+
 	public CheckOutPage verifyGoToCart()
 	{
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_GoToCheckOut));
 		PerformAction.IsElementAvailable(btn_GoToCheckOut);
 		PerformAction.clickOnUIElement(btn_GoToCheckOut);
+		Reporter.log("Clicked on Go To CheckOut Button");
 		return PageFactory.initElements(driver, CheckOutPage.class);
 	}
-	
+
 	public CheckOutPage goToCart()
 	{
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(btn_ItemsInCart));
 		PerformAction.IsElementAvailable(btn_ItemsInCart);
 		PerformAction.clickOnUIElement(btn_ItemsInCart);
+		Reporter.log("Clicked on Items|Cart icon to go to Cart");
 		return PageFactory.initElements(driver, CheckOutPage.class);
 	}
-	
+
 }

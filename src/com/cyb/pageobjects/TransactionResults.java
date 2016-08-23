@@ -1,6 +1,5 @@
 package com.cyb.pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,10 +24,10 @@ public class TransactionResults {
 
 	@FindBy(xpath=".//*[@id='post-30']/div/div[2]/table/tbody/tr/td[4]")
 	WebElement txt_ItemTotal;
-	
+
 	@FindBy(xpath=".//*[@id='account_logout']/a")
 	WebElement btn_LogOut;
-	
+
 	//Assuring Page has loaded
 	public void waitForPageToLoad()
 	{
@@ -45,7 +44,7 @@ public class TransactionResults {
 	public void getFinalProductPrice(){
 		StrFinalPrice = PerformAction.gerTextFromUIElement(txt_ItemTotal);	
 	}
-	
+
 	public WelcomePage compareProductPrice()
 	{
 		if (welcomePage.strActualPrice.equalsIgnoreCase(StrFinalPrice)) {
@@ -58,10 +57,12 @@ public class TransactionResults {
 	public void verifySuccessfulOrderPlacement()
 	{
 		PerformAction.IsElementAvailable(txt_SuccessMessage);
-		
 	}
-	public void logOut()
+	public void logOut() throws InterruptedException
 	{
 		PerformAction.clickOnUIElement(btn_LogOut);
+		Reporter.log("User Logged out");
+		PerformAction.closeCurrentBrowser(driver);
+		Thread.sleep(2000);
 	}
 }

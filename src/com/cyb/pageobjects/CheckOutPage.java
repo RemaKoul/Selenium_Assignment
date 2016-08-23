@@ -19,7 +19,8 @@ public class CheckOutPage {
 	}
 
 	// Identifying Elements 
-	@FindBy(name="submit")
+	//@FindBy(name="submit")
+	@FindBy(xpath=".//*[@id='checkout_page_container']/div[1]/table/tbody/tr[2]/td[6]/form/input[4]")
 	WebElement btn_Remove;
 
 	@FindBy(css=".step2")
@@ -42,21 +43,17 @@ public class CheckOutPage {
 		}
 	}
 
-	/*public void ProceedToCheckout()
-	{
-		PerformAction.clickOnUIElement(btn_continueCheckOut);
-
-	}*/
 	public void RemoveItemFromCart()
 	{
 		String strSuccessEmptyCartMsg = "Oops, there is nothing in your cart.";
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_Remove));
 		PerformAction.clickOnUIElement(btn_Remove);
-
+		Reporter.log("Clicked on Remove Button to empty the cart");
+	//	PerformAction.clickOnUIElement(btn_Remove);
 		wait.until(ExpectedConditions.visibilityOf(txt_EmptyCartMessage));
 		if (PerformAction.gerTextFromUIElement(txt_EmptyCartMessage).contains(strSuccessEmptyCartMsg)) {
-			Reporter.log("Cart has been emptied successfully");
+			Reporter.log("Cart has been emptied successfully.Cart message says : "+strSuccessEmptyCartMsg);
 		} else {
 			Reporter.log("Cart has not been emptied successfully");
 		}
@@ -66,6 +63,7 @@ public class CheckOutPage {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_continueCheckOut));
 		PerformAction.clickOnUIElement(btn_continueCheckOut);
+		Reporter.log("Clicked on Continue to Check Out");
 		return PageFactory.initElements(driver, BillingPage.class);
 	}
 

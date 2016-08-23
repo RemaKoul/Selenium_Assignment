@@ -1,9 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HomeAway_Regression_Suite" verbose="1">
 	  <test name="Regression Test_FireFox">
-	  <parameter name="strBrowser" value="FF"/> 
+	  <parameter name="strBrowser" value="CH"/> 
 	  <parameter name="strUser" value="demoOrder"/>
 	  <parameter name="strPassword" value="demoOrder"/>
+	  <parameter name="strURL" value="http://store.demoqa.com/products-page/your-account/"/>
+	  <parameter name="strProduct" value="Apple iPhone 4S 16GB SIM-Free - Black"/>
+	  <parameter name="strCountry" value="India"/>
+	  <parameter name="txtEmailAddress" value="rema@koul.com"/>
+	  <parameter name="txtFirstName" value="Rema"/>
+	  <parameter name="txtLastName" value="Koul"/>
+	  <parameter name="txtShipingAddress" value="Pune"/>
+	  <parameter name="txtCity" value="Pune"/>
+	  <parameter name="txtState" value="Maharashtra"/>
+	  <parameter name="txtPhoneNumber" value="9049986369"/>
 		    <classes>
 		 		 <class name="com.cyb.test.TestModule" />
 		   </classes>

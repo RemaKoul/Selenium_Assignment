@@ -18,7 +18,7 @@ public class HomePage {
 	{
 		this.driver=driver;
 	}
-	
+
 	@FindBy(id="log")
 	WebElement txt_UserName;
 
@@ -36,11 +36,11 @@ public class HomePage {
 		if (btn_LogIn.isDisplayed()) {
 			Reporter.log("Welcome to Login page");
 		} else {
-					Reporter.log("Login page is not displayed");
-					Assert.fail();
+			Reporter.log("Login page is not displayed");
+			Assert.fail();
 		}
 	}
-	
+
 	public void navigateToURL(String strURL)
 	{
 		driver.get(strURL);
@@ -51,7 +51,7 @@ public class HomePage {
 		PerformAction.sendTextToUI(txt_UserName, txtUserName);
 		Reporter.log("User Name entered as :"+txtUserName);
 	}
-	
+
 	public void enterPassword(String txtPassword)
 	{
 		PerformAction.sendTextToUI(txt_Password, txtPassword);
@@ -61,6 +61,7 @@ public class HomePage {
 	public WelcomePage submitUserContext()
 	{
 		PerformAction.clickOnUIElement(btn_LogIn);
+		Reporter.log("Clicked on Login Button");
 		return PageFactory.initElements(driver, WelcomePage.class);
 	}
 }

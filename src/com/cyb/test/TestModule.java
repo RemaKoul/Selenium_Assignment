@@ -23,12 +23,12 @@ public class TestModule {
 	public BillingPage billingPage;
 
 	private WebDriver driver;
-	String strURL ="http://store.demoqa.com/products-page/your-account/";
+	/*String strURL ="http://store.demoqa.com/products-page/your-account/";
 	String strProduct="Apple iPhone 4S 16GB SIM-Free - Black";
-
-	@Parameters({"strBrowser","strUser","strPassword"})
+*/
+	@Parameters({"strBrowser","strUser","strPassword","strURL"})
 	@BeforeTest
-	public void preRequisite(String strBrowser,String strUser,String strPassword)
+	public void preRequisite(String strBrowser,String strUser,String strPassword,String strURL)
 	{
 		driver=WebDriverManager.getBrowserDriver(strBrowser);
 		homePage = PageFactory.initElements(driver, HomePage.class);
@@ -37,10 +37,11 @@ public class TestModule {
 		homePage.enterPassword(strPassword);
 		welcomePage = homePage.submitUserContext();
 	}
-
+	
+	@Parameters({"strProduct","strCountry","txtEmailAddress","txtFirstName","txtLastName","txtShipingAddress","txtCity","txtState","txtPhoneNumber"})
 	@Test(priority=0)
 	//Submit an order for an Apple iPhone4s 16GB SIM-Free – Black 
-	public void submitAnOrder()
+	public void submitAnOrder(String strProduct,String strCountry,String txtEmailAddress,String txtFirstName,String txtLastName,String txtShipingAddress,String txtCity,String txtState,String txtPhoneNumber)
 	{
 		welcomePage.waitForPageToLoad();
 		
@@ -53,7 +54,7 @@ public class TestModule {
 		//checkOutPage.ProceedToCheckout();
 		billingPage = checkOutPage.ProceedToCheckout();
 		billingPage.waitForPageToLoad();
-		billingPage.enterShippingAddressDetails();
+		billingPage.enterShippingAddressDetails(strCountry,txtEmailAddress,txtFirstName,txtLastName,txtShipingAddress,txtCity,txtState,txtPhoneNumber);
 		transactionResults = billingPage.proceedToPurchase();
 		transactionResults.waitForPageToLoad();
 		transactionResults.getFinalProductPrice();
@@ -69,35 +70,37 @@ public class TestModule {
 	}*/
 
 	
-	@Parameters({"strBrowser","strUser","strPassword"})
+	@Parameters({"strBrowser","strUser","strPassword","strURL"})
 	@Test(priority=1)
 	/*Verify updating your account details is saved and retrieved after 
 	logging out and back in using the My Account link.*/
-	public void verifyAccountDetails(String strBrowser,String strUser,String strPassword)
+	public void verifyAccountDetails(String strBrowser,String strUser,String strPassword,String strURL) throws InterruptedException
 	{
 		//welcomePage = transactionResults.compareProductPrice();
 		welcomePage.waitForPageToLoad();
 		welcomePage.goToMyAcountDetails();
 		transactionResults = welcomePage.myAccountEdit();
 		transactionResults.logOut();
-		preRequisite(strBrowser, strUser, strPassword);
+		preRequisite(strBrowser, strUser, strPassword, strURL);
 		welcomePage.waitForPageToLoad();
 		welcomePage.goToMyAcountDetails();
 		welcomePage.verifyAcountUpdate();	
 	}
 	
+	@Parameters({"strProduct"})
 	@Test(priority=2)
 	/*Verify removing all items from your cart produces an empty cart message.*/
-	public void verifyRemovingItemEmptyCartMessage()
+	public void verifyRemovingItemEmptyCartMessage(String strProduct)
 	{
-		/*welcomePage.searchForProduct(strProduct);
+		welcomePage.searchForProduct(strProduct);
 		welcomePage.verifyProductAddedToCart(strProduct);
-		welcomePage.addToCart();*/
+		welcomePage.addToCart();
 		checkOutPage = welcomePage.verifyGoToCart();	
+		//checkOutPage = welcomePage.goToCart();	
 		checkOutPage.waitForPageToLoad();
 		checkOutPage.RemoveItemFromCart();
+		PerformAction.closeAllOpenBrowsers(driver);
 	}
-	
 
 	@AfterTest
 	public void tearDown()

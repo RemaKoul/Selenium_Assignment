@@ -1,7 +1,5 @@
 package com.cyb.pageobjects;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +19,8 @@ public class BillingPage {
 		this.driver=driver;
 	}
 	// Identifying Elements 
+//	public static By drp_CurrentCountry = By.id("current_country");
+	
 	@FindBy(id="current_country")
 	WebElement drp_CurrentCountry;
 
@@ -70,30 +70,30 @@ public class BillingPage {
 		}
 	}
 
-	public void enterShippingAddressDetails()
+	public void enterShippingAddressDetails(String strCountry,String txtEmailAddress,String txtFirstName,String txtLastName,String txtShipingAddress,String txtCity,String txtState,String txtPhoneNumber)
 	{
-		String strCountry="India";
+		
 		PerformAction.selectValueFromDropDown(drp_CurrentCountry, strCountry);
 		PerformAction.clickOnUIElement(btn_CalculateState);
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("wpsc_checkout_form_9")));
 		PerformAction.clearUIElement(txt_emailAddress);
-		PerformAction.sendTextToUI(txt_emailAddress, "abc@testdomain.com");
-			PerformAction.clearUIElement(txt_FirstName);
-		PerformAction.sendTextToUI(txt_FirstName, "Rema");
-			PerformAction.clearUIElement(txt_LastName);
-		PerformAction.sendTextToUI(txt_LastName, "Koul");
+		PerformAction.sendTextToUI(txt_emailAddress, txtEmailAddress);
+		PerformAction.clearUIElement(txt_FirstName);
+		PerformAction.sendTextToUI(txt_FirstName, txtFirstName);
+		PerformAction.clearUIElement(txt_LastName);
+		PerformAction.sendTextToUI(txt_LastName, txtLastName);
 		PerformAction.clearUIElement(txt_ShipingAddress);
-		PerformAction.sendTextToUI(txt_ShipingAddress, "Pune");
+		PerformAction.sendTextToUI(txt_ShipingAddress, txtShipingAddress);
 		PerformAction.clearUIElement(txt_City);
-		PerformAction.sendTextToUI(txt_City, "Pune");
+		PerformAction.sendTextToUI(txt_City, txtCity);
 		PerformAction.clearUIElement(txt_State);
-		PerformAction.sendTextToUI(txt_State, "Mah");
+		PerformAction.sendTextToUI(txt_State, txtState);
 		PerformAction.selectValueFromDropDown(drp_selectCountryAddress, strCountry);
 		PerformAction.clearUIElement(txt_PhoneNumber);
-		PerformAction.sendTextToUI(txt_PhoneNumber, "9049986606");
-		
+		PerformAction.sendTextToUI(txt_PhoneNumber, txtPhoneNumber);
 		PerformAction.selectCheckBox(chb_sameAsShipingAddress);
+		Reporter.log("Shipping details have been entered successfully");
 	}
 
 
@@ -102,6 +102,7 @@ public class BillingPage {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOf(btn_Purchase));
 		PerformAction.clickOnUIElement(btn_Purchase);
+		Reporter.log("Clicked on Purchase");
 		return PageFactory.initElements(driver, TransactionResults.class);
 	}
 }
